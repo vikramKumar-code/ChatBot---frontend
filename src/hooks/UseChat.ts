@@ -7,7 +7,15 @@ import {
   deleteConversation,
 } from "../services/Api";
 
-const USER_ID = "test-User-1";
+const userId = typeof window !== 'undefined'
+  ? (localStorage.getItem("userId") || (() => {
+      const newId = `user-${Math.random().toString(36).substring(2, 11)}`;
+      localStorage.setItem("userId", newId);
+      return newId;
+    })())
+  : "guest";
+
+const USER_ID = userId;
 
 export const useChat = () => {
   const [conversations, setConversations] = useState<Conversation[]>([]);
